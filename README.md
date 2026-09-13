@@ -1,5 +1,7 @@
 # Omamine
 
+[![Built for Omarchy: Plugin](https://raw.githubusercontent.com/tcballard/omarchy-badges/75975e5b5bf75e7ede3764bcd2950046f7abfe2c/badges/v1/omarchy-plugin.svg)](https://github.com/tcballard/omarchy-badges)
+
 Classic Minesweeper for the Omarchy Quattro bar. Click the mine on the bar to
 open a theme-aware board; play with the mouse or the keyboard.
 
