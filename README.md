@@ -3,6 +3,8 @@
 Classic Minesweeper for the Omarchy Quattro bar. Click the mine on the bar to
 open a theme-aware board; play with the mouse or the keyboard.
 
+![Omamine](preview.png)
+
 ## Install
 
 ```sh
@@ -23,6 +25,7 @@ Click the bar icon to open or close the board. Press Escape to close it.
 | Middle click / `c` | Chord a numbered cell |
 | Arrows or `hjkl` | Move the cursor |
 | `n` or the face | New game |
+| Hint / `a` | Play one certain AI move (CS50 knowledge solver) |
 | `1` `2` `3` | Beginner, Intermediate, Expert |
 | `?` | Key list |
 | Escape | Close |
@@ -55,8 +58,14 @@ omarchy plugin remove io.github.raythurman2386.omamine
 omarchy plugin validate .
 qmllint -I "$OMARCHY_PATH/shell" BarWidget.qml Panel.qml
 node tests/game.test.js
+node tests/solver.test.js
 ```
+
+## Requirements
+
+Omarchy 4 with the Quattro shell (Quickshell). No extra packages, network,
+installer, or privileged helpers.
 
 ## License
 
-MIT
+MIT. The preview screenshot is of this plugin running on Omarchy.

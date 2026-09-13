@@ -2,6 +2,7 @@ import QtQuick
 import qs.Commons
 import qs.Ui
 import "Game.js" as Game
+import "Solver.js" as Solver
 
 Panel {
   id: root
@@ -19,6 +20,7 @@ Panel {
   property int cursorY: 0
   property bool ticking: false
   property bool showHelp: false
+  property string hintMessage: ""
   property var bestTimes: ({})
 
   readonly property color contentForeground: bar ? bar.foreground : Color.foreground
@@ -115,6 +117,7 @@ Panel {
   function startGame(id) {
     var nextId = Game.normalizedDifficulty(id || root.difficulty)
     var state = Game.newGame(nextId)
+    root.hintMessage = ""
     publish(state)
     if (nextId !== root.difficulty) persistSettings({ difficulty: nextId, bestTimes: root.bestTimes })
   }
@@ -135,6 +138,18 @@ Panel {
     Game.chord(root.game, x, y)
     Game.moveCursor(root.game, x - root.game.cursorX, y - root.game.cursorY)
     syncFrom(root.game)
+  }
+
+  function playHint() {
+    root.hintMessage = ""
+    if (!root.game || root.game.over) return
+    var move = Solver.hint(root.game)
+    if (!move || move.type === "none") {
+      root.hintMessage = "No certain move"
+      return
+    }
+    if (move.type === "flag") root.flagAt(move.x, move.y)
+    else root.revealAt(move.x, move.y)
   }
 
   function cellGlyph(cell) {
@@ -239,6 +254,7 @@ Panel {
         else if (t === "1") root.startGame("beginner")
         else if (t === "2") root.startGame("intermediate")
         else if (t === "3") root.startGame("expert")
+        else if (t === "a" || t === "A") root.playHint()
         else if (t === "?") root.showHelp = !root.showHelp
       }
 
@@ -309,6 +325,16 @@ Panel {
               font.bold: true
               anchors.verticalCenter: parent.verticalCenter
             }
+
+            Button {
+              text: "Hint"
+              tooltipText: "Play one certain AI move"
+              foreground: root.contentForeground
+              bordered: true
+              fontFamily: root.contentFontFamily
+              fontSize: Style.font.caption
+              onClicked: root.playHint()
+            }
           }
         }
 
@@ -368,9 +394,11 @@ Panel {
 
         Text {
           width: parent.width
-          text: root.showHelp
-            ? "space/click open · f/right-click flag · c/middle chord · n new · 1–3 difficulty · esc close"
-            : root.bestLabel() + "  ·  ? keys"
+          text: root.hintMessage !== ""
+            ? root.hintMessage
+            : (root.showHelp
+              ? "space/click open · f/right-click flag · c/middle chord · a hint · n new · 1–3 difficulty · esc close"
+              : root.bestLabel() + "  ·  ? keys")
           textFormat: Text.PlainText
           color: Color.muted
           font.family: root.contentFontFamily

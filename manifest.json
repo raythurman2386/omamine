@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "id": "io.github.raythurman2386.omamine",
   "name": "Omamine",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "Raymond Thurman",
   "license": "MIT",
-  "description": "Classic Minesweeper for the Omarchy bar, with keyboard play and theme-aware tiles.",
+  "description": "Classic Minesweeper for the Omarchy bar, with keyboard play, theme-aware tiles, and a knowledge-based hint AI.",
   "kinds": [
     "bar-widget"
   ],
